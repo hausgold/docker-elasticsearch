@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NSS_MDNS=$(dpkg -s libnss-mdns | grep Version: \
-  | cut -d: -f2 | cut -d- -f1 | tr -d ' ')
+NSS_MDNS=$(yum list installed | grep '^nss-mdns' | awk '{print $2}' \
+  | cut -d- -f1 | cut -d. -f1-2 | tr -d ' ')
 
 if [ "${NSS_MDNS}" != '0.10' ]; then
   # After nss-mdns >0.10 we need to reconfigure the allowed hosts to support
