@@ -5,7 +5,7 @@
 
 This Docker images provides the [official/elasticsearch](https://hub.docker.com/_/elasticsearch/) image as base
 with the mDNS/ZeroConf stack on top. So you can enjoy [elasticsearch](https://www.elastic.co/products/elasticsearch) while
-it is accessible by default as *elasticsearch.local*. (Port 6379)
+it is accessible by default as *elasticsearch.local*. (Port 9200, 80 via proxy)
 
 - [Requirements](#requirements)
 - [Getting starting](#getting-starting)
