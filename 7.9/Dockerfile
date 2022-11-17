@@ -4,6 +4,10 @@ MAINTAINER Hermann Mayer "hermann.mayer@hausgold.de"
 # You can change this environment variable on run's with -e
 ENV MDNS_HOSTNAME=elasticsearch.local
 
+# Keep the settings low for default
+ENV ES_JAVA_OPTS='-Xms96m -Xmx96m'
+ENV discovery.type='single-node'
+
 # Install system packages
 RUN yum install -y epel-release && \
   yum install -y \

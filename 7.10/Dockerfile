@@ -4,9 +4,22 @@ MAINTAINER Hermann Mayer "hermann.mayer@hausgold.de"
 # You can change this environment variable on run's with -e
 ENV MDNS_HOSTNAME=elasticsearch.local
 
+# Keep the settings low for default
+ENV ES_JAVA_OPTS='-Xms96m -Xmx96m'
+ENV discovery.type='single-node'
+
 # Install system packages
-RUN yum install -y epel-release && \
-  yum install -y \
+# while fixing EL8 repositories base URLs
+# and installing the OKay EL repository
+RUN \
+  sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+  sed -i \
+    's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' \
+    /etc/yum.repos.d/CentOS-* && \
+  yum install -y epel-release && \
+  export OKAY_BASE='http://repo.okay.com.mx/centos/8/x86_64/release' && \
+  rpm -ivh "${OKAY_BASE}/okay-release-1-5.el8.noarch.rpm" && \
+  yum install -y --nobest \
     dbus avahi avahi-tools nss-mdns haproxy supervisor
 
 # Copy avahi.sh
