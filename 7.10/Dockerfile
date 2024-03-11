@@ -19,7 +19,7 @@ RUN \
   yum install -y epel-release && \
   export OKAY_BASE='http://repo.okay.com.mx/centos/8/x86_64/release' && \
   rpm -ivh "${OKAY_BASE}/okay-release-1-5.el8.noarch.rpm" && \
-  yum install -y --nobest \
+  yum install -y --nobest --nogpgcheck \
     dbus avahi avahi-tools nss-mdns haproxy supervisor
 
 # Copy custom scripts
