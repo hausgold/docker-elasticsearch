@@ -1,5 +1,5 @@
 FROM elasticsearch:7.9.3
-MAINTAINER Hermann Mayer "hermann.mayer@hausgold.de"
+LABEL org.opencontainers.image.authors="containers@hausgold.de"
 
 # You can change this environment variable on run's with -e
 ENV MDNS_HOSTNAME=elasticsearch.local
@@ -9,8 +9,17 @@ ENV ES_JAVA_OPTS='-Xms96m -Xmx96m'
 ENV discovery.type='single-node'
 
 # Install system packages
-RUN yum install -y epel-release && \
-  yum install -y \
+# while fixing EL7 repositories base URLs
+# and installing the OKay EL repository
+RUN \
+  sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+  sed -i \
+    's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' \
+    /etc/yum.repos.d/CentOS-* && \
+  yum install -y epel-release && \
+  export OKAY_BASE='http://repo.okay.com.mx/centos/7/x86_64/release' && \
+  rpm -ivh "${OKAY_BASE}/okay-release-1-5.el7.noarch.rpm" && \
+  yum install -y --nogpgcheck \
     dbus avahi avahi-tools nss-mdns haproxy supervisor
 
 # Copy custom scripts
@@ -24,4 +33,4 @@ COPY config/haproxy.conf /etc/haproxy/haproxy.cfg
 COPY config/supervisor/* /etc/supervisord.d/
 
 # Define the command to run per default
-CMD /usr/bin/supervisord -nc /etc/supervisord.conf
+CMD ["/usr/bin/supervisord", "-nc", "/etc/supervisord.conf"]
