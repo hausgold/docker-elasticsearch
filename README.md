@@ -1,3 +1,9 @@
+> [!WARNING]
+> This repository is archived. No new images will be published to the Docker
+> Hub due to the Elaticsearch license change. Please switch to
+> [docker-opensearch](https://github.com/hausgold/docker-opensearch), the
+> mDNS-enabled opensearchproject/opensearch image as alternative.
+
 ![mDNS enabled official/elasticsearch](https://raw.githubusercontent.com/hausgold/docker-elasticsearch/master/docs/assets/project.png)
 
 [![Continuous Integration](https://github.com/hausgold/docker-elasticsearch/actions/workflows/package.yml/badge.svg?branch=master)](https://github.com/hausgold/docker-elasticsearch/actions/workflows/package.yml)
